@@ -12,6 +12,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmpasswordController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool _obscured = true;
@@ -20,6 +22,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       _obscured = !_obscured;
     });
+  }
+
+  void passwordChecker() {
+    if (_passwordController.text == _confirmpasswordController.text) {
+      return print("PassWords are same");
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              "Warning!",
+              style: TextStyle(),
+            ),
+            content: const Text("Passwords are not the same."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -108,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               controller: _passwordController,
                               obscureText: _obscured,
                               decoration: InputDecoration(
-                                hintText: "Enter your password",
+                                hintText: "Password",
                                 prefixIcon: const Icon(Icons.lock),
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -129,10 +158,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const Text("Confirm Password",
                                 style: TextStyle(fontSize: 18)),
                             TextFormField(
-                              controller: _passwordController,
+                              controller: _confirmpasswordController,
                               obscureText: _obscured,
                               decoration: InputDecoration(
-                                hintText: "Enter your password",
+                                hintText: "Confirm password",
                                 prefixIcon: const Icon(Icons.lock),
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -161,7 +190,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Container(
                               width: screenWidth * 0.9,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    passwordChecker();
+                                  });
+                                },
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
