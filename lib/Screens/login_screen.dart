@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:custom_clippers/custom_clippers.dart';
+import 'package:login_screen/Screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,7 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscured = true;
   bool _checkbox = false;
 
-  void passwordvisibility() {
+  void _togglePasswordVisibility() {
     setState(() {
       _obscured = !_obscured;
     });
@@ -32,9 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
         Column(
           children: [
             ClipPath(
-              clipper: SinCosineWaveClipper(
+              clipper: Curve(),
+              /*SinCosineWaveClipper(
                 horizontalPosition: HorizontalPosition.right,
-              ),
+              ),*/
               child: Container(
                 height: screenHeight * 0.4,
                 width: screenWidth,
@@ -52,7 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
                     const Text(
                       "Sign in",
                       style:
@@ -66,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.deepOrange,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 30),
                     Form(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,11 +77,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextFormField(
                             controller: _usernameController,
                             decoration: const InputDecoration(
-                                hintText: "demo@gmail.com",
-                                prefixIcon: Icon(Icons.email),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.deepOrange))),
+                              hintText: "demo@gmail.com",
+                              prefixIcon: Icon(Icons.email),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.deepOrange),
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 20),
                           const Text(
@@ -93,25 +94,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             controller: _passwordController,
                             obscureText: _obscured,
                             decoration: InputDecoration(
-                                hintText: "Enter your password",
-                                prefixIcon: const Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _obscured
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                  ),
-                                  onPressed: () {
-                                    passwordvisibility();
-                                  },
+                              hintText: "Enter your password",
+                              prefixIcon: const Icon(Icons.lock),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscured
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                 ),
-                                focusedBorder: const UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.deepOrange))),
+                                onPressed: _togglePasswordVisibility,
+                              ),
+                              focusedBorder: const UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.deepOrange),
+                              ),
+                            ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                          const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -133,32 +132,34 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ],
                               ),
-                              const Text("Forgot Password?",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.deepOrange))
+                              const Text(
+                                "Forgot Password?",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange,
+                                ),
+                              ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    SafeArea(
-                        child: Align(
+                    const SizedBox(height: 50),
+                    Align(
                       alignment: Alignment.bottomCenter,
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             width: screenWidth * 0.9,
                             child: ElevatedButton(
                               onPressed: () {},
                               style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.deepOrange.shade200)),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  const Color(0xFFfc8484),
+                                ),
+                              ),
                               child: const Text(
                                 "Login",
                                 style: TextStyle(
@@ -166,37 +167,64 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Row(
+                          const SizedBox(height: 20),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 "Don't you have an account? ",
                                 style: TextStyle(fontSize: 18),
                               ),
                               InkWell(
-                                child: Text(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterScreen(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
                                   "SignUp",
                                   style: TextStyle(
-                                      color: Colors.deepOrange,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                    color: Colors.deepOrange,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              )
+                              ),
                             ],
-                          )
+                          ),
                         ],
                       ),
-                    ))
+                    ),
                   ],
                 ),
               ),
             ),
           ],
-        )
+        ),
       ]),
     );
+  }
+}
+
+class Curve extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height * 0.65);
+    path.quadraticBezierTo(size.width * 0.2, size.height * 0.65,
+        size.width * 0.45, size.height * 0.85);
+    path.quadraticBezierTo(
+        size.width * 0.7, size.height * 1.1, size.width, size.height * 0.85);
+    path.lineTo(size.width, 0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
   }
 }
