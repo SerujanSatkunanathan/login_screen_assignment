@@ -18,7 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _obscured = true;
 
-  void _togglePasswordVisibility() {
+  void _passwordVisibility() {
     setState(() {
       _obscured = !_obscured;
     });
@@ -145,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ? Icons.visibility_off
                                         : Icons.visibility,
                                   ),
-                                  onPressed: _togglePasswordVisibility,
+                                  onPressed: _passwordVisibility,
                                 ),
                                 focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -169,7 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ? Icons.visibility_off
                                         : Icons.visibility,
                                   ),
-                                  onPressed: _togglePasswordVisibility,
+                                  onPressed: _passwordVisibility,
                                 ),
                                 focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
